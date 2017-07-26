@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">BookSocial</string>
+    <string name="action_settings">Settings</string>
+    <string name="book_title">Book</string>
+    <string name="add_book">Add a Book</string>
+    <string name="content_book_name">type  book name here</string>
+    <string name="book_name_hint">book name here... </string>
+    <string name="input_prefill"> </string>
+    <string name="add_author">Add an Author</string>
+    <string name="content_author_name">type author name here</string>
+    <string name="author_name_hint">author name here...</string>
+    <string name="title_activity_book_detail">BookDetailActivity</string>
+    <string name="book_open">open on goodreads</string>
+</resources>
