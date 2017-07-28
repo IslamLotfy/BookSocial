@@ -1,4 +1,4 @@
-package com.example.islam.booksocial.Models;
+package com.example.islam.bookz.Models;
 
 /**
  * Created by islam on 21/07/17.
@@ -8,7 +8,7 @@ import com.google.gson.annotations.Expose;
 
 import org.simpleframework.xml.Element;
 
-public class BookLink {
+public class BuyLink {
 
     @Element(required=false,name="id")
     @Expose

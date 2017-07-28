@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "738041718647",
+    "firebase_url": "https://booksocial-68282.firebaseio.com",
+    "project_id": "booksocial-68282",
+    "storage_bucket": "booksocial-68282.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:738041718647:android:9922d211bd390248",
+        "android_client_info": {
+          "package_name": "com.example.islam.booksocial"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "738041718647-fkjpbc3gjj978sl5dtv4tjlqreopu7fj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.islam.booksocial",
+            "certificate_hash": "f93a3ac7e62154e85f1529016db91bae46bcacd8"
+          }
+        },
+        {
+          "client_id": "738041718647-v1hfsl1mnvc48ut4616i1h6ed7h4rkle.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABR8GP4fok_5DHJgMxPgus2O3aEPT31vY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "738041718647-v1hfsl1mnvc48ut4616i1h6ed7h4rkle.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

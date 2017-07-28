@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.islam.booksocial">
+    package="com.example.islam.bookz">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -24,7 +24,16 @@
         <activity
             android:name=".BookDetailActivity"
             android:label="@string/title_activity_book_detail"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AuthorActivity"
+            android:label="@string/title_activity_author"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.islam.bookz.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

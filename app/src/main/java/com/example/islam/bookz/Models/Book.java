@@ -1,4 +1,4 @@
-package com.example.islam.booksocial.Models;
+package com.example.islam.bookz.Models;
 
 /**
  * Created by islam on 21/07/17.
@@ -366,6 +366,12 @@ public class Book {
 
     public void setSeriesWorks(String seriesWorks) {
         this.seriesWorks = seriesWorks;
+    }
+
+    public String getDate(){
+        String date="";
+        date+=getPublicationDay()+" / "+getPublicationMonth()+" / "+getPublicationYear();
+        return date;
     }
 
 }

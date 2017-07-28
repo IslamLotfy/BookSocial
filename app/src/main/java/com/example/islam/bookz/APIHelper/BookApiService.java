@@ -1,6 +1,6 @@
-package com.example.islam.booksocial.APIHelper;
+package com.example.islam.bookz.APIHelper;
 
-import com.example.islam.booksocial.Models.GoodreadsResponse;
+import com.example.islam.bookz.Models.GoodreadsResponse;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;

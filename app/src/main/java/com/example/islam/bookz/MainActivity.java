@@ -1,8 +1,7 @@
-package com.example.islam.booksocial;
+package com.example.islam.bookz;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,17 +12,19 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.example.islam.booksocial.APIHelper.ApiModule;
-import com.example.islam.booksocial.APIHelper.BookApiService;
-import com.example.islam.booksocial.Models.GoodreadsResponse;
+import com.example.islam.bookz.APIHelper.ApiModule;
+import com.example.islam.bookz.APIHelper.BookApiService;
+import com.example.islam.bookz.Models.GoodreadsResponse;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
+
     private ApiModule apiModule;
     private BookApiService bookApiService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,13 +39,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showBookInputDialog();
-            }
-        });
-        FloatingActionButton fabAuthor = (FloatingActionButton) findViewById(R.id.fab_author);
-        fabAuthor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showAuthorInputDialog();
             }
         });
     }
@@ -105,18 +99,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onInput(MaterialDialog dialog, CharSequence input) {
                         // Do something
+                        Intent intent=new Intent(MainActivity.this,BookDetailActivity.class);
+                        intent.putExtra("book",input.toString());
+                        startActivity(intent);
 
-                        rx.Observable<GoodreadsResponse> book= bookApiService.getBook(input.toString());
-                        book.subscribeOn(Schedulers.newThread())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(result -> {
-                                    Intent intent=new Intent(MainActivity.this,BookDetailActivity.class);
-                                    intent.putExtra("book", (Parcelable) result.getBook());
-                                    startActivity(intent);
-                                    Log.e("moviesccc",result.getBook().getImageUrl());
-                                },throwable -> {
-                                    Log.e("errorrrrr",throwable.toString());
-                                });
                     }
                 }).show();
     }
@@ -138,6 +124,8 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }else if(id==R.id.search){
+            showAuthorInputDialog();
         }
 
         return super.onOptionsItemSelected(item);

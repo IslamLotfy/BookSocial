@@ -1,4 +1,4 @@
-package com.example.islam.booksocial.Models;
+package com.example.islam.bookz.Models;
 
 /**
  * Created by islam on 21/07/17.

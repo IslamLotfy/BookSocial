@@ -1,4 +1,4 @@
-package com.example.islam.booksocial;
+package com.example.islam.bookz;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

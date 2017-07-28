@@ -1,4 +1,4 @@
-package com.example.islam.booksocial;
+package com.example.islam.bookz;
 
 import org.junit.Test;
 

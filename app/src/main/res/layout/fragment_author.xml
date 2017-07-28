@@ -93,13 +93,7 @@
                             android:layout_marginLeft="@dimen/outer_space"
                             android:layout_marginRight="@dimen/outer_space"
                             android:orientation="vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/book_author"
-                                android:text="s;rrkhtkhkrgmeg"
-                                android:textAppearance="?android:textAppearanceLarge"
-                                />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -114,15 +108,6 @@
                                 tools:text="jngjrngegnrbjrngieigenge"
                                 android:layout_marginTop="@dimen/inner_space"
                                 />
-                            <TextView
-                                android:id="@+id/book_publisher"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                tools:text="jngjrngegnrbjrngieigenge"
-                                android:layout_marginTop="@dimen/inner_space"
-                                />
-
-
                         </LinearLayout>
                     </LinearLayout>
                     <TextView
@@ -143,7 +128,12 @@
                         android:layout_margin="@dimen/outer_space"
                         android:textSize="@dimen/md_content_textsize" />
 
+                    <android.support.v7.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/books">
 
+                    </android.support.v7.widget.RecyclerView>
                     <Button
                         android:id="@+id/btnLink"
                         android:layout_width="match_parent"

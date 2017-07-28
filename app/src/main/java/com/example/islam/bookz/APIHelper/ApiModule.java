@@ -1,6 +1,6 @@
-package com.example.islam.booksocial.APIHelper;
+package com.example.islam.bookz.APIHelper;
 
-import com.example.islam.booksocial.Constants;
+import com.example.islam.bookz.Constants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

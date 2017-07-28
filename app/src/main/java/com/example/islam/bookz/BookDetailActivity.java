@@ -1,4 +1,4 @@
-package com.example.islam.booksocial;
+package com.example.islam.bookz;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
