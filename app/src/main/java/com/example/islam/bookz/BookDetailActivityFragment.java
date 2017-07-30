@@ -76,7 +76,7 @@ public class BookDetailActivityFragment extends Fragment {
     private void bindData(Book book) {
         this.book=book;
         Picasso.with(getActivity()).load(book.getImageUrl()).into(bookImage);
-        Picasso.with(getActivity()).load(book.getAuthors().get(0).getImageUrl()).into(authorImage);
+        Picasso.with(getActivity()).load(book.getSmallImageUrl()).into(authorImage);
         bookTitle.setText(book.getTitle());
         bookDate.setText(book.getDate());
         bookAuthor.setText(book.getAuthors().get(0).getName());
