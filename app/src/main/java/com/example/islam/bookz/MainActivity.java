@@ -14,7 +14,7 @@ import android.view.View;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.islam.bookz.APIHelper.ApiModule;
 import com.example.islam.bookz.APIHelper.BookApiService;
-import com.example.islam.bookz.Models.GoodreadsResponse;
+import com.example.islam.bookz.APIHelper.Connector;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -24,11 +24,24 @@ public class MainActivity extends AppCompatActivity {
 
     private ApiModule apiModule;
     private BookApiService bookApiService;
+    private Connector connector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        connector=new Connector();
+        connector.setListener(1,response -> {
+            response.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(goodreadsResponse -> {
+                Log.e("Async task",goodreadsResponse.getBook().getImageUrl());
+            },throwable -> {
+                        Log.e("errorrrrr",throwable.toString());
+                    });
+        });
+
+        connector.execute("Hound of the baskervilles");
+
         apiModule=new ApiModule();
         bookApiService=apiModule.provideApiService();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -52,29 +65,37 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onInput(MaterialDialog dialog, CharSequence input) {
                         // Do something
-                        rx.Observable<GoodreadsResponse> author= bookApiService.getAuthorId(input.toString());
-                        author.subscribeOn(Schedulers.newThread())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(result -> {
-                                    String id=getID(result.getAuthor().getLink());
-                                    Log.e("movies",id);
-                                    getAuthor(id);
-                                },throwable -> {
-                                    Log.e("errorrrrr",throwable.toString());
-                                });
+                        connector=new Connector();
+                       connector.setListener(2,response -> {
+                           response.subscribeOn(Schedulers.newThread())
+                                   .observeOn(AndroidSchedulers.mainThread())
+                                   .subscribe(result -> {
+                                       String id=getID(result.getAuthor().getLink());
+                                       Intent intent=new Intent(MainActivity.this,AuthorActivity.class);
+                                       intent.putExtra("authorId",id);
+                                       startActivity(intent);
+                                       getAuthor(id);
+                                   },throwable -> {
+                                       Log.e("errorrrrr",throwable.toString());
+                                   });
+                       });
+                        connector.execute(input.toString());
 
                     }
                 }).show();
     }
     private void getAuthor(String id) {
-        rx.Observable<GoodreadsResponse> author= bookApiService.getAuthor(id);
-        author.subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result -> {
-                    Log.e("movies",result.getAuthor().getBooks().get(0).getTitle());
-                },throwable -> {
-                    Log.e("errorrrrr",throwable.toString());
-                });
+        connector=new Connector();
+        connector.setListener(3,response -> {
+            response.subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(result -> {
+                        Log.e("movies",result.getAuthor().getBooks().get(0).getTitle());
+                    },throwable -> {
+                        Log.e("errorrrrr",throwable.toString());
+                    });
+        });
+       connector.execute(id);
 
     }
 

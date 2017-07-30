@@ -49,6 +49,7 @@ public class ApiModule {
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
+
         return new Retrofit.Builder()
                 .baseUrl(baseURL)
                 .client(client)
