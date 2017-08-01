@@ -91,7 +91,7 @@ public class AuthorActivityFragment extends Fragment {
         bookViewAdapter.setListener(position -> {
             Book book=this.author.getBooks().get(position);
             Intent intent=new Intent(getActivity(),BookDetailActivity.class);
-            intent.putExtra("book", book);
+            intent.putExtra("bookName", book.getTitle());
             startActivity(intent);
         });
         recyclerView.setAdapter(bookViewAdapter);

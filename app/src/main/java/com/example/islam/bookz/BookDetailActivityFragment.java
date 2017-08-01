@@ -60,10 +60,6 @@ public class BookDetailActivityFragment extends Fragment {
             book = new Book();
             getBook();
         }
-        else {
-            book =  getActivity().getIntent().getParcelableExtra("book");
-            bindData(book);
-        }
 
         return view;
     }
