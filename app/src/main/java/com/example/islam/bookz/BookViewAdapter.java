@@ -18,6 +18,7 @@ public class BookViewAdapter extends RecyclerView.Adapter<BookViewHolder> {
 
     private Context context;
     private List<ViewModel> models;
+    private BookClickedListener listener;
 
     public BookViewAdapter(Context context , List<ViewModel> models){
         this.context=context;
@@ -31,12 +32,16 @@ public class BookViewAdapter extends RecyclerView.Adapter<BookViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(BookViewHolder holder, int position) {
-        holder.bindData(models.get(position).getUrl(),models.get(position).getTitle());
+    public void onBindViewHolder(BookViewHolder holder, int position ) {
+        holder.bindData(position,models.get(position).getUrl(),models.get(position).getTitle(),listener);
     }
 
     @Override
     public int getItemCount() {
         return models.size();
+    }
+
+    public void setListener(BookClickedListener listener) {
+        this.listener = listener;
     }
 }

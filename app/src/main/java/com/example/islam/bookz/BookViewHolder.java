@@ -20,11 +20,14 @@ public class BookViewHolder extends RecyclerView.ViewHolder {
         this.itemView=itemView;
         this.context=context;
     }
-    public void bindData(String url,String title){
+    public void bindData(int position, String url, String title, BookClickedListener listener){
         ImageView imageView=(ImageView)itemView.findViewById(R.id.item_image_view);
         TextView textView=(TextView)itemView.findViewById(R.id.item_view_title);
         Picasso.with(context).load(url).into(imageView);
         textView.setText(title);
+        itemView.setOnClickListener(v -> {
+            listener.OnBookClicked(position);
+        });
 
     }
 }

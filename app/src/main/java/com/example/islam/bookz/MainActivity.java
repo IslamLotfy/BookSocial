@@ -120,8 +120,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onInput(MaterialDialog dialog, CharSequence input) {
                         // Do something
+
                         Intent intent=new Intent(MainActivity.this,BookDetailActivity.class);
-                        intent.putExtra("book",input.toString());
+                        intent.putExtra("bookName",input.toString());
                         startActivity(intent);
 
                     }

@@ -55,9 +55,16 @@ public class BookDetailActivityFragment extends Fragment {
         apiModule=new ApiModule();
         bookApiService=apiModule.provideApiService();
         initView();
-        bookName=getActivity().getIntent().getStringExtra("book");
-        book=new Book();
-        getBook();
+        if(getActivity().getIntent().hasExtra("bookName")) {
+            bookName = getActivity().getIntent().getStringExtra("bookName");
+            book = new Book();
+            getBook();
+        }
+        else {
+            book =  getActivity().getIntent().getParcelableExtra("book");
+            bindData(book);
+        }
+
         return view;
     }
 
@@ -76,13 +83,22 @@ public class BookDetailActivityFragment extends Fragment {
     private void bindData(Book book) {
         this.book=book;
         Picasso.with(getActivity()).load(book.getImageUrl()).into(bookImage);
+        bookImage.setVisibility(View.VISIBLE);
         Picasso.with(getActivity()).load(book.getSmallImageUrl()).into(authorImage);
+        authorImage.setVisibility(View.VISIBLE);
         bookTitle.setText(book.getTitle());
+        bookTitle.setVisibility(View.VISIBLE);
         bookDate.setText(book.getDate());
+        bookDate.setVisibility(View.VISIBLE);
         bookAuthor.setText(book.getAuthors().get(0).getName());
+        bookAuthor.setVisibility(View.VISIBLE);
         bookDescription.setText(book.getDescription());
+        bookDescription.setVisibility(View.VISIBLE);
         bookVoteAverage.setText(book.getAverageRating());
+        bookVoteAverage.setVisibility(View.VISIBLE);
         bookPublisher.setText(book.getPublisher());
+        bookPublisher.setVisibility(View.VISIBLE);
+        openLink.setVisibility(View.VISIBLE);
         openLink.setOnClickListener(v -> {
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(book.getLink()));
@@ -94,13 +110,22 @@ public class BookDetailActivityFragment extends Fragment {
         favouriteBtn= (FloatingActionButton) view.findViewById(R.id.favorite_fab);
         favouriteBtn.setSelected(bookFav);
         bookImage= (ImageView) view.findViewById(R.id.book_cover);
+        bookImage.setVisibility(View.INVISIBLE);
         authorImage = (ImageView) view.findViewById(R.id.book_image);
+        authorImage.setVisibility(View.INVISIBLE);
         bookTitle= (TextView) view.findViewById(R.id.book_title);
+        bookTitle.setVisibility(View.INVISIBLE);
         bookDate= (TextView) view.findViewById(R.id.book_date);
+        bookDate.setVisibility(View.INVISIBLE);
         bookVoteAverage= (TextView) view.findViewById(R.id.book_vote_average);
+        bookVoteAverage.setVisibility(View.INVISIBLE);
         bookDescription= (TextView) view.findViewById(R.id.book_description);
+        bookDescription.setVisibility(View.INVISIBLE);
         openLink= (Button) view.findViewById(R.id.btnLink);
+        openLink.setVisibility(View.INVISIBLE);
         bookAuthor=(TextView)view.findViewById(R.id.book_author);
+        bookAuthor.setVisibility(View.INVISIBLE);
         bookPublisher=(TextView)view.findViewById(R.id.book_publisher);
+        bookPublisher.setVisibility(View.INVISIBLE);
     }
 }

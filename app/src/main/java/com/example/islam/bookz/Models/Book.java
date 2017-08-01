@@ -4,6 +4,9 @@ package com.example.islam.bookz.Models;
  * Created by islam on 21/07/17.
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 
 import org.simpleframework.xml.Element;
@@ -13,7 +16,7 @@ import org.simpleframework.xml.Root;
 import java.util.List;
 
 @Root(strict=false)
-public class Book {
+public class Book implements Parcelable {
 
     @Element(required=false,name="id")
     @Expose
@@ -111,6 +114,10 @@ public class Book {
     @Element(required=false,name="series_works")
     @Expose
     private String seriesWorks;
+
+    public Book(){
+
+    }
 
     public String getId() {
         return id;
@@ -373,5 +380,32 @@ public class Book {
         date+=getPublicationDay()+" / "+getPublicationMonth()+" / "+getPublicationYear();
         return date;
     }
+
+    protected Book(Parcel in) {
+        id = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Book> CREATOR = new Parcelable.Creator<Book>() {
+        @Override
+        public Book createFromParcel(Parcel in) {
+            return new Book(in);
+        }
+
+        @Override
+        public Book[] newArray(int size) {
+            return new Book[size];
+        }
+    };
 
 }

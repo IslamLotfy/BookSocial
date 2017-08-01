@@ -10,14 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.islam.bookz.APIHelper.Connector;
 import com.example.islam.bookz.Models.Author;
 import com.example.islam.bookz.Models.Book;
 import com.example.islam.bookz.Models.ViewModel;
-import com.squareup.picasso.Picasso;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -31,10 +29,6 @@ import rx.schedulers.Schedulers;
 public class AuthorActivityFragment extends Fragment {
 
     private TextView authorName;
-    private TextView averageRating;
-    private TextView ratingCount;
-    private ImageView authorImage;
-    private ImageView authorSmallImage;
     private Author author;
     private String authorId;
     private Connector connector;
@@ -50,12 +44,12 @@ public class AuthorActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_author, container, false);
         authorName=(TextView)view.findViewById(R.id.author_name);
-        averageRating=(TextView)view.findViewById(R.id.author_rating);
-        ratingCount=(TextView)view.findViewById(R.id.author_rating_count);
-        authorImage=(ImageView)view.findViewById(R.id.author_image_large);
-        authorSmallImage=(ImageView)view.findViewById(R.id.author_image_small);
+        authorName.setVisibility(View.INVISIBLE);
+
         openButton=(Button)view.findViewById(R.id.btnLink_author);
+        openButton.setVisibility(View.INVISIBLE);
         recyclerView=(RecyclerView)view.findViewById(R.id.books_author);
+        recyclerView.setVisibility(View.INVISIBLE);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
 
@@ -70,7 +64,6 @@ public class AuthorActivityFragment extends Fragment {
                     });
         });
         connector.execute(authorId);
-
 
         openButton.setOnClickListener(v -> {
                 Intent i = new Intent(Intent.ACTION_VIEW);
@@ -92,12 +85,16 @@ public class AuthorActivityFragment extends Fragment {
     private void bindData(Author author) {
         this.author=author;
         authorName.setText(author.getName());
-        averageRating.setText(author.getAverageRating());
-        ratingCount.setText(author.getRatingsCount());
-        Picasso.with(getActivity()).load(author.getImageUrl()).into(authorImage);
-        Picasso.with(getActivity()).load(author.getSmallImageUrl()).into(authorSmallImage);
+        authorName.setVisibility(View.VISIBLE);
+        openButton.setVisibility(View.VISIBLE);
         bookViewAdapter=new BookViewAdapter(getActivity(),getViewModels());
+        bookViewAdapter.setListener(position -> {
+            Book book=this.author.getBooks().get(position);
+            Intent intent=new Intent(getActivity(),BookDetailActivity.class);
+            intent.putExtra("book", book);
+            startActivity(intent);
+        });
         recyclerView.setAdapter(bookViewAdapter);
-
+        recyclerView.setVisibility(View.VISIBLE);
     }
 }
