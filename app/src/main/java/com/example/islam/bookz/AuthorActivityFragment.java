@@ -6,20 +6,25 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.islam.bookz.APIHelper.ApiModule;
+import com.example.islam.bookz.APIHelper.BookApiService;
 import com.example.islam.bookz.APIHelper.Connector;
 import com.example.islam.bookz.Models.Author;
 import com.example.islam.bookz.Models.Book;
+import com.example.islam.bookz.Models.GoodreadsResponse;
 import com.example.islam.bookz.Models.ViewModel;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -32,6 +37,8 @@ public class AuthorActivityFragment extends Fragment {
     private Author author;
     private String authorId;
     private Connector connector;
+    private ApiModule apiModule;
+    private BookApiService bookApiService;
     private Button openButton;
     private RecyclerView recyclerView;
     private BookViewAdapter bookViewAdapter;
@@ -45,6 +52,8 @@ public class AuthorActivityFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_author, container, false);
         authorName=(TextView)view.findViewById(R.id.author_name);
         authorName.setVisibility(View.INVISIBLE);
+        apiModule=new ApiModule();
+        bookApiService=apiModule.provideApiService();
 
         openButton=(Button)view.findViewById(R.id.btnLink_author);
         openButton.setVisibility(View.INVISIBLE);
@@ -54,16 +63,26 @@ public class AuthorActivityFragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
 
         authorId=getActivity().getIntent().getStringExtra("authorId");
-        connector=new Connector();
-        connector.setListener(3,response -> {
-            response.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(goodreadsResponse -> {
-                        bindData(goodreadsResponse.getAuthor());
-                    },throwable -> {
 
-                    });
-        });
-        connector.execute(authorId);
+        Observable<GoodreadsResponse> responseObservable=bookApiService.getAuthor(authorId);
+        responseObservable.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(goodreadsResponse -> {
+                    bindData(goodreadsResponse.getAuthor());
+                },throwable -> {
+                    Log.e("error","error in retrieving data");
+                });
+//        connector=new Connector();
+//        connector.setListener(3,response -> {
+//            response.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(goodreadsResponse -> {
+//                        bindData(goodreadsResponse.getAuthor());
+//                    },throwable -> {
+//
+//                    });
+//        });
+//        connector.execute(authorId);
+
 
         openButton.setOnClickListener(v -> {
                 Intent i = new Intent(Intent.ACTION_VIEW);

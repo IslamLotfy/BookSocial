@@ -12,11 +12,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.islam.bookz.APIHelper.ApiModule;
 import com.example.islam.bookz.APIHelper.BookApiService;
 import com.example.islam.bookz.Models.Book;
 import com.example.islam.bookz.Models.GoodreadsResponse;
+import com.example.islam.bookz.Models.ViewModel;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -44,6 +49,8 @@ public class BookDetailActivityFragment extends Fragment {
     private Book book;
     private ApiModule apiModule;
     private BookApiService bookApiService;
+    private DatabaseReference databaseReference;
+    private String userId;
 
     public BookDetailActivityFragment() {
     }
@@ -55,6 +62,9 @@ public class BookDetailActivityFragment extends Fragment {
         apiModule=new ApiModule();
         bookApiService=apiModule.provideApiService();
         initView();
+        databaseReference= FirebaseDatabase.getInstance().getReference();
+        userId=Authenticator.getInstance().getUserID();
+
         if(getActivity().getIntent().hasExtra("bookName")) {
             bookName = getActivity().getIntent().getStringExtra("bookName");
             book = new Book();
@@ -62,6 +72,27 @@ public class BookDetailActivityFragment extends Fragment {
         }
 
         return view;
+    }
+
+    public boolean isBookFav(){
+        boolean[] bookFav = {false};
+        RxFireBaseDB.observeSingleValueEvent(databaseReference.child("Users").child(userId).child("books"))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(dataSnapshot -> {
+                    Log.e("key",dataSnapshot.getKey());
+                    Log.e("value",dataSnapshot.getValue().toString());
+
+                    for (DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                        ViewModel model=dataSnapshot1.getValue(ViewModel.class);
+                        if(model.getTitle().equals(bookName))
+                            bookFav[0] =true;
+                    }
+
+                },throwable -> {
+
+                });
+        return bookFav[0];
     }
 
     private void getBook() {
@@ -84,7 +115,7 @@ public class BookDetailActivityFragment extends Fragment {
         authorImage.setVisibility(View.VISIBLE);
         bookTitle.setText(book.getTitle());
         bookTitle.setVisibility(View.VISIBLE);
-        bookDate.setText(book.getDate());
+        bookDate.setText(book.getPublicationYear());
         bookDate.setVisibility(View.VISIBLE);
         bookAuthor.setText(book.getAuthors().get(0).getName());
         bookAuthor.setVisibility(View.VISIBLE);
@@ -100,11 +131,28 @@ public class BookDetailActivityFragment extends Fragment {
             i.setData(Uri.parse(book.getLink()));
             startActivity(i);
         });
+        ViewModel model=new ViewModel(book.getImageUrl(),bookName);
+        favouriteBtn.setVisibility(View.VISIBLE);
+        if(isBookFav())
+            favouriteBtn.setImageResource(R.drawable.ic_favorite_full);
+
+        favouriteBtn.setOnClickListener(v -> {
+            RxFireBaseDB.setValue(databaseReference.child("Users").child(userId).child("books").child(bookName),model).
+                    subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(aVoid -> {
+                        Toast.makeText(getActivity(),"book added to your favourite Successfully",Toast.LENGTH_SHORT).show();
+                        favouriteBtn.setImageResource(R.drawable.ic_favorite_full);
+                    },throwable -> {
+                        Toast.makeText(getActivity(),"Sorry, an error occurred , please try again",Toast.LENGTH_SHORT).show();
+                    });
+        });
     }
 
     private void initView() {
         favouriteBtn= (FloatingActionButton) view.findViewById(R.id.favorite_fab);
         favouriteBtn.setSelected(bookFav);
+        favouriteBtn.setVisibility(View.INVISIBLE);
         bookImage= (ImageView) view.findViewById(R.id.book_cover);
         bookImage.setVisibility(View.INVISIBLE);
         authorImage = (ImageView) view.findViewById(R.id.book_image);

@@ -15,7 +15,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.islam.bookz.APIHelper.ApiModule;
 import com.example.islam.bookz.APIHelper.BookApiService;
 import com.example.islam.bookz.APIHelper.Connector;
+import com.example.islam.bookz.Models.GoodreadsResponse;
 
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -30,17 +32,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        connector=new Connector();
-        connector.setListener(1,response -> {
-            response.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(goodreadsResponse -> {
-                Log.e("Async task",goodreadsResponse.getBook().getImageUrl());
-            },throwable -> {
-                        Log.e("errorrrrr",throwable.toString());
-                    });
-        });
-
-        connector.execute("Hound of the baskervilles");
 
         apiModule=new ApiModule();
         bookApiService=apiModule.provideApiService();
@@ -65,39 +56,22 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onInput(MaterialDialog dialog, CharSequence input) {
                         // Do something
-                        connector=new Connector();
-                       connector.setListener(2,response -> {
-                           response.subscribeOn(Schedulers.newThread())
-                                   .observeOn(AndroidSchedulers.mainThread())
-                                   .subscribe(result -> {
-                                       String id=getID(result.getAuthor().getLink());
-                                       Intent intent=new Intent(MainActivity.this,AuthorActivity.class);
-                                       intent.putExtra("authorId",id);
-                                       startActivity(intent);
-                                       getAuthor(id);
-                                   },throwable -> {
-                                       Log.e("errorrrrr",throwable.toString());
-                                   });
-                       });
-                        connector.execute(input.toString());
+                        Observable<GoodreadsResponse> responseObservable=bookApiService.getAuthorId(input.toString());
+                        responseObservable.subscribeOn(Schedulers.newThread())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(result -> {
+                                    String id=getID(result.getAuthor().getLink());
+                                    Intent intent=new Intent(MainActivity.this,AuthorActivity.class);
+                                    intent.putExtra("authorId",id);
+                                    startActivity(intent);
+                                },throwable -> {
+                                    Log.e("errorrrrr",throwable.toString());
+                                });
 
                     }
                 }).show();
     }
-    private void getAuthor(String id) {
-        connector=new Connector();
-        connector.setListener(3,response -> {
-            response.subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(result -> {
-                        Log.e("movies",result.getAuthor().getBooks().get(0).getTitle());
-                    },throwable -> {
-                        Log.e("errorrrrr",throwable.toString());
-                    });
-        });
-       connector.execute(id);
 
-    }
 
     public String getID(String link){
         String id="";

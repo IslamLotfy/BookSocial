@@ -14,7 +14,6 @@ import java.util.List;
 
 @Root(strict=false)
 public class Book  {
-
     @Element(required=false,name="id")
     @Expose
     private String id;
