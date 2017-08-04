@@ -1,5 +1,6 @@
 package com.example.islam.bookz;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -51,6 +52,7 @@ public class BookDetailActivityFragment extends Fragment {
     private BookApiService bookApiService;
     private DatabaseReference databaseReference;
     private String userId;
+    private ProgressDialog progressDialog;
 
     public BookDetailActivityFragment() {
     }
@@ -61,6 +63,10 @@ public class BookDetailActivityFragment extends Fragment {
         view= inflater.inflate(R.layout.fragment_book_detail, container, false);
         apiModule=new ApiModule();
         bookApiService=apiModule.provideApiService();
+        progressDialog=new ProgressDialog(getActivity());
+        progressDialog.setTitle(getResources().getString(R.string.loading));
+        progressDialog.setMessage(getResources().getString(R.string.wait_message));
+        progressDialog.show();
         initView();
         databaseReference= FirebaseDatabase.getInstance().getReference();
         userId=Authenticator.getInstance().getUserID();
@@ -82,7 +88,7 @@ public class BookDetailActivityFragment extends Fragment {
                 .subscribe(dataSnapshot -> {
                     for (DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
                         ViewModel model=dataSnapshot1.getValue(ViewModel.class);
-                        if(model.getTitle().equals(bookName))
+                        if(model.getTitle().equals(book.getTitle()))
                             bookFav[0] =true;
                     }
 
@@ -104,6 +110,10 @@ public class BookDetailActivityFragment extends Fragment {
     }
 
     private void bindData(Book book) {
+        book.getDescription().replaceAll("<br>","\n");
+        book.getDescription().replaceAll("</br>"," ");
+        book.getDescription().replaceAll("<*br*>"," ");
+        progressDialog.dismiss();
         this.book=book;
         Picasso.with(getActivity()).load(book.getImageUrl()).into(bookImage);
         bookImage.setVisibility(View.VISIBLE);

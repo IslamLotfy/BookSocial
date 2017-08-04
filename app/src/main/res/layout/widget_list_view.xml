@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:text="Hello World!"
         android:gravity="center"
+        android:visibility="invisible"
         android:layout_centerInParent="true"
         android:id="@+id/empty_text_view"/>
 </RelativeLayout>

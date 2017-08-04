@@ -1,5 +1,6 @@
 package com.example.islam.bookz;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,13 +36,12 @@ public class AuthorActivityFragment extends Fragment {
     private TextView authorName;
     private Author author;
     private String authorId;
-    private Connector connector;
     private ApiModule apiModule;
     private BookApiService bookApiService;
     private Button openButton;
     private RecyclerView recyclerView;
     private BookViewAdapter bookViewAdapter;
-
+    private ProgressDialog progressDialog;
     public AuthorActivityFragment() {
     }
 
@@ -53,7 +53,10 @@ public class AuthorActivityFragment extends Fragment {
         authorName.setVisibility(View.INVISIBLE);
         apiModule=new ApiModule();
         bookApiService=apiModule.provideApiService();
-
+        progressDialog=new ProgressDialog(getActivity());
+        progressDialog.setTitle(getResources().getString(R.string.loading));
+        progressDialog.setMessage(getResources().getString(R.string.wait_message));
+        progressDialog.show();
         openButton=(Button)view.findViewById(R.id.btnLink_author);
         openButton.setVisibility(View.INVISIBLE);
         recyclerView=(RecyclerView)view.findViewById(R.id.books_author);
@@ -91,6 +94,7 @@ public class AuthorActivityFragment extends Fragment {
     }
 
     private void bindData(Author author) {
+        progressDialog.dismiss();
         this.author=author;
         authorName.setText(author.getName());
         authorName.setVisibility(View.VISIBLE);

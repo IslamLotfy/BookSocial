@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.example.islam.bookz.Models.ViewModel;
@@ -59,15 +60,21 @@ public class BookzWidget extends AppWidgetProvider {
                             ViewModel model=dataSnapshot1.getValue(ViewModel.class);
                             models.add(model);
                         }
-                        Intent intent = new Intent(context, WidgetService.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(context.getResources().getString(R.string.models), (Serializable) models);
-                        intent.putExtra(context.getResources().getString(R.string.bundle), bundle);
+                        if(models.isEmpty()){
+                            rv.setViewVisibility(R.id.empty_text_view, View.VISIBLE);
+                            appWidgetManager.updateAppWidget(appWidgetId, rv);
 
-                        rv.setRemoteAdapter(R.id.books_widget_list, intent);
-                        rv.setEmptyView(R.id.container, R.id.empty_text_view);
+                        }else {
+                            Intent intent = new Intent(context, WidgetService.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable(context.getResources().getString(R.string.models), (Serializable) models);
+                            intent.putExtra(context.getResources().getString(R.string.bundle), bundle);
 
-                        appWidgetManager.updateAppWidget(appWidgetId, rv);
+                            rv.setRemoteAdapter(R.id.books_widget_list, intent);
+                            rv.setEmptyView(R.id.container, R.id.empty_text_view);
+
+                            appWidgetManager.updateAppWidget(appWidgetId, rv);
+                        }
 
                     },throwable -> {
                         Log.e(context.getResources().getString(R.string.error),context.getResources().getString(R.string.error_retrieving_data));

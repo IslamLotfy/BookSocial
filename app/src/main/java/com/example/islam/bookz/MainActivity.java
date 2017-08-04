@@ -15,6 +15,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.islam.bookz.APIHelper.ApiModule;
 import com.example.islam.bookz.APIHelper.BookApiService;
 import com.example.islam.bookz.Models.GoodreadsResponse;
+import com.github.amlcurran.showcaseview.ShowcaseView;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -25,8 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ApiModule apiModule;
     private BookApiService bookApiService;
-    private Connector connector;
-
+    private ShowcaseView showcaseView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         bookApiService=apiModule.provideApiService();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         FloatingActionButton fabBook = (FloatingActionButton) findViewById(R.id.fab_book);
         fabBook.setOnClickListener(new View.OnClickListener() {
