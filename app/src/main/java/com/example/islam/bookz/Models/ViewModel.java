@@ -1,10 +1,12 @@
 package com.example.islam.bookz.Models;
 
+import java.io.Serializable;
+
 /**
  * Created by islam on 31/07/17.
  */
 
-public class ViewModel {
+public class ViewModel implements Serializable{
     private String url;
     private String title;
 

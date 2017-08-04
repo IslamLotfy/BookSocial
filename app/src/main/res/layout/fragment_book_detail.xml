@@ -150,7 +150,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/book_open"
                         android:tag="@string/book_open"
-                        android:background="@android:color/holo_red_light"
+                        android:background="@android:color/holo_blue_light"
                         android:textColor="@android:color/white"
                         android:textAppearance="?android:textAppearanceLarge"
                         android:layout_marginBottom="@dimen/inner_space"

@@ -65,8 +65,8 @@ public class BookDetailActivityFragment extends Fragment {
         databaseReference= FirebaseDatabase.getInstance().getReference();
         userId=Authenticator.getInstance().getUserID();
 
-        if(getActivity().getIntent().hasExtra("bookName")) {
-            bookName = getActivity().getIntent().getStringExtra("bookName");
+        if(getActivity().getIntent().hasExtra(getResources().getString(R.string.book_name))) {
+            bookName = getActivity().getIntent().getStringExtra(getResources().getString(R.string.book_name));
             book = new Book();
             getBook();
         }
@@ -76,13 +76,10 @@ public class BookDetailActivityFragment extends Fragment {
 
     public boolean isBookFav(){
         boolean[] bookFav = {false};
-        RxFireBaseDB.observeSingleValueEvent(databaseReference.child("Users").child(userId).child("books"))
+        RxFireBaseDB.observeSingleValueEvent(databaseReference.child(getResources().getString(R.string.user_node)).child(userId).child(getResources().getString(R.string.book_node)))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(dataSnapshot -> {
-                    Log.e("key",dataSnapshot.getKey());
-                    Log.e("value",dataSnapshot.getValue().toString());
-
                     for (DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
                         ViewModel model=dataSnapshot1.getValue(ViewModel.class);
                         if(model.getTitle().equals(bookName))
@@ -90,7 +87,7 @@ public class BookDetailActivityFragment extends Fragment {
                     }
 
                 },throwable -> {
-
+                    Log.e(getResources().getString(R.string.error),getResources().getString(R.string.error_retrieving_data));
                 });
         return bookFav[0];
     }
@@ -101,9 +98,8 @@ public class BookDetailActivityFragment extends Fragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
                     bindData(result.getBook());
-                    Log.e("moviesccc",result.getBook().getImageUrl());
                 },throwable -> {
-                    Log.e("errorrrrr",throwable.toString());
+                    Log.e(getResources().getString(R.string.error),getResources().getString(R.string.error_retrieving_data));
                 });
     }
 
@@ -137,14 +133,14 @@ public class BookDetailActivityFragment extends Fragment {
             favouriteBtn.setImageResource(R.drawable.ic_favorite_full);
 
         favouriteBtn.setOnClickListener(v -> {
-            RxFireBaseDB.setValue(databaseReference.child("Users").child(userId).child("books").child(bookName),model).
+            RxFireBaseDB.setValue(databaseReference.child(getResources().getString(R.string.user_node)).child(userId).child(getResources().getString(R.string.book_node)).child(bookName),model).
                     subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(aVoid -> {
-                        Toast.makeText(getActivity(),"book added to your favourite Successfully",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),getResources().getString(R.string.book_added),Toast.LENGTH_SHORT).show();
                         favouriteBtn.setImageResource(R.drawable.ic_favorite_full);
                     },throwable -> {
-                        Toast.makeText(getActivity(),"Sorry, an error occurred , please try again",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),getResources().getString(R.string.book_not_added),Toast.LENGTH_SHORT).show();
                     });
         });
     }

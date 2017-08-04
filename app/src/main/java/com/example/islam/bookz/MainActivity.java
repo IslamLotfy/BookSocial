@@ -14,7 +14,6 @@ import android.view.View;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.islam.bookz.APIHelper.ApiModule;
 import com.example.islam.bookz.APIHelper.BookApiService;
-import com.example.islam.bookz.APIHelper.Connector;
 import com.example.islam.bookz.Models.GoodreadsResponse;
 
 import rx.Observable;
@@ -62,10 +61,10 @@ public class MainActivity extends AppCompatActivity {
                                 .subscribe(result -> {
                                     String id=getID(result.getAuthor().getLink());
                                     Intent intent=new Intent(MainActivity.this,AuthorActivity.class);
-                                    intent.putExtra("authorId",id);
+                                    intent.putExtra(getResources().getString(R.string.author_id),id);
                                     startActivity(intent);
                                 },throwable -> {
-                                    Log.e("errorrrrr",throwable.toString());
+                                    Log.e(getResources().getString(R.string.error),throwable.toString());
                                 });
 
                     }
@@ -96,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                         // Do something
 
                         Intent intent=new Intent(MainActivity.this,BookDetailActivity.class);
-                        intent.putExtra("bookName",input.toString());
+                        intent.putExtra(getResources().getString(R.string.book_name),input.toString());
                         startActivity(intent);
 
                     }

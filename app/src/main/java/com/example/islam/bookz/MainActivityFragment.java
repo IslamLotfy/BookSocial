@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +46,7 @@ public class MainActivityFragment extends Fragment {
         apiModule = new ApiModule();
         bookApiService = apiModule.provideApiService();
         errorTextView=(TextView)view.findViewById(R.id.error_tv);
-        errorTextView.setText(R.string.no_books);
+        errorTextView.setText(R.string.loading);
         String userId=Authenticator.getInstance().getUserID();
         databaseReference= FirebaseDatabase.getInstance().getReference();
         recyclerView=(RecyclerView)view.findViewById(R.id.book_view);
@@ -55,13 +54,10 @@ public class MainActivityFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
         List<ViewModel> viewModels=new LinkedList<>();
-        RxFireBaseDB.observeSingleValueEvent(databaseReference.child("Users").child(userId).child("books"))
+        RxFireBaseDB.observeSingleValueEvent(databaseReference.child(getResources().getString(R.string.user_node)).child(userId).child(getResources().getString(R.string.book_node)))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(dataSnapshot -> {
-                    Log.e("key",dataSnapshot.getKey());
-                    Log.e("value",dataSnapshot.getValue().toString());
-
                     for (DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
                             ViewModel model=dataSnapshot1.getValue(ViewModel.class);
                             viewModels.add(model);
@@ -69,7 +65,7 @@ public class MainActivityFragment extends Fragment {
                         bookViewAdapter=new BookViewAdapter(getActivity(),viewModels);
                         bookViewAdapter.setListener(position -> {
                             Intent intent=new Intent(getActivity(),BookDetailActivity.class);
-                            intent.putExtra("bookName", viewModels.get(position).getTitle());
+                            intent.putExtra(getResources().getString(R.string.book_name), viewModels.get(position).getTitle());
                             startActivity(intent);
                         });
                         recyclerView.setVisibility(View.VISIBLE);

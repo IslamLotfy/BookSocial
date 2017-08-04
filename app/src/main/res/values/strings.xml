@@ -16,4 +16,19 @@
     <string name="title_activity_author">AuthorActivity</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_signup">SignupActivity</string>
+    <string name="error">error</string>
+    <string name="error_retrieving_data">error in retrieving data</string>
+    <string name="author_id">authorId</string>
+    <string name="book_name">bookName</string>
+    <string name="user_node">Users</string>
+    <string name="book_node">books</string>
+    <string name="book_added">book added to your favourite Successfully</string>
+    <string name="book_not_added">Sorry, an error occurred , please try again</string>
+    <string name="models">models</string>
+    <string name="bundle">bundle</string>
+    <string name="wait_message">please wait ...</string>
+    <string name="loading">loading</string>
+    <string name="error_try_again">an error occured, please try again</string>
+    <string name="write_pass_email">please make sure to fill email and password field</string>
+    <string name="log_in">account created successfully , now log in please</string>
 </resources>

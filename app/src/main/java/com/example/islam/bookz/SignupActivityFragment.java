@@ -45,8 +45,8 @@ public class SignupActivityFragment extends Fragment {
 
 
         signupButton.setOnClickListener(view1 -> {
-            progressDialog.setTitle("loading");
-            progressDialog.setMessage("please wait...");
+            progressDialog.setTitle(getResources().getString(R.string.loading));
+            progressDialog.setMessage(getResources().getString(R.string.wait_message));
             progressDialog.show();
             signup();
         });
@@ -56,15 +56,15 @@ public class SignupActivityFragment extends Fragment {
     private void signup() {
         mail = emailField.getText().toString();
         pass = passField.getText().toString();
-        if(mail==null||pass==null){
-            Toast.makeText(getActivity(),"please make sure to fill email and password field",Toast.LENGTH_SHORT).show();
+        if(mail==null||pass==null||pass.length()<6){
+            Toast.makeText(getActivity(),getResources().getString(R.string.write_pass_email),Toast.LENGTH_SHORT).show();
             return;
         }
         firstName = nameField1.getText().toString();
         secondName = nameField2.getText().toString();
         authenticator.createUser(getActivity(), mail, pass).subscribe(o -> {
             progressDialog.dismiss();
-            Toast.makeText(getActivity(),"account created successfully , now log in please ",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.log_in),Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             startActivity(intent);
             getActivity().finish();

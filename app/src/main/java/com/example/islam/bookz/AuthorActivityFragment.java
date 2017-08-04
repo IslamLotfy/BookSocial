@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.example.islam.bookz.APIHelper.ApiModule;
 import com.example.islam.bookz.APIHelper.BookApiService;
-import com.example.islam.bookz.APIHelper.Connector;
 import com.example.islam.bookz.Models.Author;
 import com.example.islam.bookz.Models.Book;
 import com.example.islam.bookz.Models.GoodreadsResponse;
@@ -62,7 +61,7 @@ public class AuthorActivityFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
 
-        authorId=getActivity().getIntent().getStringExtra("authorId");
+        authorId=getActivity().getIntent().getStringExtra(getResources().getString(R.string.author_id));
 
         Observable<GoodreadsResponse> responseObservable=bookApiService.getAuthor(authorId);
         responseObservable.subscribeOn(Schedulers.newThread())
@@ -70,18 +69,8 @@ public class AuthorActivityFragment extends Fragment {
                 .subscribe(goodreadsResponse -> {
                     bindData(goodreadsResponse.getAuthor());
                 },throwable -> {
-                    Log.e("error","error in retrieving data");
+                    Log.e(getResources().getString(R.string.error),getResources().getString(R.string.error_retrieving_data));
                 });
-//        connector=new Connector();
-//        connector.setListener(3,response -> {
-//            response.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe(goodreadsResponse -> {
-//                        bindData(goodreadsResponse.getAuthor());
-//                    },throwable -> {
-//
-//                    });
-//        });
-//        connector.execute(authorId);
 
 
         openButton.setOnClickListener(v -> {
@@ -110,7 +99,7 @@ public class AuthorActivityFragment extends Fragment {
         bookViewAdapter.setListener(position -> {
             Book book=this.author.getBooks().get(position);
             Intent intent=new Intent(getActivity(),BookDetailActivity.class);
-            intent.putExtra("bookName", book.getTitle());
+            intent.putExtra(getResources().getString(R.string.book_name), book.getTitle());
             startActivity(intent);
         });
         recyclerView.setAdapter(bookViewAdapter);

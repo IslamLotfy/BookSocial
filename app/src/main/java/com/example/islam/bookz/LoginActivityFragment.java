@@ -44,8 +44,8 @@ public class LoginActivityFragment extends Fragment {
         authenticator = Authenticator.getInstance();
 
         logingButton.setOnClickListener(view1 -> {
-            progressDialog.setMessage("please wait ...");
-            progressDialog.setTitle("loading");
+            progressDialog.setMessage(getResources().getString(R.string.wait_message));
+            progressDialog.setTitle(getResources().getString(R.string.loading));
             progressDialog.show();
             login();
         });
@@ -80,7 +80,7 @@ public class LoginActivityFragment extends Fragment {
                 startActivity(intent);
                 getActivity().finish();
             } else {
-                Toast.makeText(getActivity(), "an error occured \n please try again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),getResources().getString(R.string.error_try_again), Toast.LENGTH_SHORT).show();
             }
         });
     }
