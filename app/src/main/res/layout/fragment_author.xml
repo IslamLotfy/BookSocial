@@ -38,8 +38,7 @@
                     android:textStyle="bold|italic"
                     android:textColor="#000000"
                     android:textAppearance="?android:textAppearanceLarge"
-                    android:layout_margin="@dimen/outer_space"
-                    android:text="Iron Man" />
+                    android:layout_margin="@dimen/outer_space" />
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.CollapsingToolbarLayout>

@@ -11,11 +11,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/item_view_title"
         android:fontFamily="sans-serif"
-        android:text="Hound of the baskervilles"
         android:textSize="@dimen/text_size_large"
         android:textStyle="bold"
         android:textAppearance="?android:textAppearanceLarge"
         android:layout_margin="@dimen/activity_horizontal_margin"
+        android:contentDescription="@string/book_title_view"
         />
     <ImageView
         android:id="@+id/item_image_view"
@@ -23,5 +23,6 @@
         android:layout_height="@dimen/poster_height"
         android:layout_marginLeft="@dimen/outer_space"
         android:layout_marginRight="@dimen/outer_space"
-        android:layout_marginTop="@dimen/outer_space" />
+        android:layout_marginTop="@dimen/outer_space"
+        android:contentDescription="@string/book_image"/>
 </LinearLayout>

@@ -31,4 +31,19 @@
     <string name="error_try_again">an error occured, please try again</string>
     <string name="write_pass_email">please make sure to fill email and password field</string>
     <string name="log_in">account created successfully , now log in please</string>
+    <string name="book_image">book_image</string>
+    <string name="book_title_view">book_title</string>
+    <string name="author_name">author_name</string>
+    <string name="book_date">book_date</string>
+    <string name="publicsher">publisher</string>
+    <string name="publishyear">publisher_year</string>
+    <string name="book_descrption">book_description</string>
+    <string name="open_ingoodreads">open_in_goodreads</string>
+    <string name="fav_book">favourite_book</string>
+    <string name="email">email</string>
+    <string name="passwrod">password</string>
+    <string name="login">Log in</string>
+    <string name="signup">Sign Up</string>
+    <string name="first_name">first name ..</string>
+    <string name="second_name">second name ..</string>
 </resources>

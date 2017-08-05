@@ -84,6 +84,7 @@
                                 android:layout_height="@dimen/poster_height"
                                 android:layout_marginLeft="@dimen/outer_space"
                                 android:layout_marginRight="@dimen/outer_space"
+                                android:contentDescription="@string/book_image"
                                 android:layout_marginTop="@dimen/outer_space" />
                         </LinearLayout>
                         <LinearLayout
@@ -97,29 +98,29 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/book_author"
-                                android:text="s;rrkhtkhkrgmeg"
+                                android:contentDescription="@string/author_name"
                                 android:textAppearance="?android:textAppearanceLarge"
                                 />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/book_date"
-                                android:text="s;rrkhtkhkrgmeg"
+                                android:contentDescription="@string/book_date"
                                 android:textAppearance="?android:textAppearanceLarge"
                                 />
                             <TextView
                                 android:id="@+id/book_vote_average"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                tools:text="jngjrngegnrbjrngieigenge"
                                 android:layout_marginTop="@dimen/inner_space"
+                                android:contentDescription="@string/publicsher"
                                 />
                             <TextView
                                 android:id="@+id/book_publisher"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                tools:text="jngjrngegnrbjrngieigenge"
                                 android:layout_marginTop="@dimen/inner_space"
+                                android:contentDescription="@string/publishyear"
                                 />
 
 
@@ -132,14 +133,13 @@
                         android:textSize="22dp"
                         android:textStyle="bold|italic"
                         android:textColor="#000000"
-                        android:layout_margin="@dimen/outer_space"
-                        android:text="Iron Man" />
+                        android:layout_margin="@dimen/outer_space" />
 
                     <TextView
                         android:id="@+id/book_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="fhmkmkwgjnehnrkhkthjtnjhrkhoeemfnegjnrjnrjnhrjnjnehhrnhjgjengjeje"
+                        android:contentDescription="@string/book_descrption"
                         android:layout_margin="@dimen/outer_space"
                         android:textSize="@dimen/md_content_textsize" />
 
@@ -153,6 +153,7 @@
                         android:background="@android:color/holo_blue_light"
                         android:textColor="@android:color/white"
                         android:textAppearance="?android:textAppearanceLarge"
+                        android:contentDescription="@string/open_ingoodreads"
                         android:layout_marginBottom="@dimen/inner_space"
                         android:layout_marginRight="@dimen/outer_space"
                         android:layout_marginLeft="@dimen/outer_space"
@@ -172,6 +173,7 @@
         android:clickable="true"
         android:background="@android:color/white"
         app:pressedTranslationZ="12dp"
+        android:contentDescription="@string/fav_book"
         app:layout_anchor="@id/app_bar_layout"
         app:layout_anchorGravity="bottom|right|end"/>
 </android.support.design.widget.CoordinatorLayout>
